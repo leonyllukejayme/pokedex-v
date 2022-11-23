@@ -45,7 +45,7 @@ const PokeList = () => {
               <PokemonCard
               id={pokemon.id.toString().padStart(3,"0")}
               name={pokemon.name[0].toUpperCase()+pokemon.name.slice(1)}
-              image={pokemon.sprites.other["official-artwork"].front_default}
+              image={pokemon.sprites.other.home.front_default}
               type={pokemon.types[0].type.name}
               key={index} 
               />
