@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PokemonCard from './PokemonCard'
 
 const PokeList = () => {
-  const[allPokemons, setAllPokemons] = useState([])
-  const [loadMore, setLoadMore] = useState('https://pokeapi.co/api/v2/pokemon?limit=100')
+  const effectRan = useRef(false)
+  const [allPokemons, setAllPokemons] = useState([])
+  const [loadMore, setLoadMore] = useState('https://pokeapi.co/api/v2/pokemon?limit=905')
 
   const getAllPokemons = async () => {
     const res = await fetch(loadMore)
@@ -20,14 +21,19 @@ const PokeList = () => {
       })
     }
     createPokemonObject(data.results)
-    console.log(data)
+    // console.log(data)
   }
 
 
 
   
   useEffect(() => {
-    getAllPokemons()
+    if(effectRan.current === false){
+      getAllPokemons()
+    }
+    return () => {
+      effectRan.current = true
+    }
  }, [])
     
 
@@ -37,14 +43,15 @@ const PokeList = () => {
         <div className="all-container">
           {allPokemons.map((pokemon, index) => 
               <PokemonCard
-              id={pokemon.id}
+              id={pokemon.id.toString().padStart(3,"0")}
               name={pokemon.name[0].toUpperCase()+pokemon.name.slice(1)}
-              image={pokemon.sprites.other.dream_world.front_default}
+              image={pokemon.sprites.other["official-artwork"].front_default}
               type={pokemon.types[0].type.name}
               key={index} 
               />
           )}
         </div>
+        {/* <button onClick={() => getAllPokemons()}>Load More</button> */}
       </div>
     </div>
   )
