@@ -20,7 +20,7 @@ const PokeList = () => {
       })
     }
     createPokemonObject(data.results)
-    console.log(allPokemons)
+    console.log(data)
   }
 
 
